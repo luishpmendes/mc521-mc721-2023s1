@@ -1,6 +1,6 @@
 // https://codeforces.com/problemset/problem/1335/A
 
-// 1335A - Candies and Two Sisters
+// CodeForces 1335A - Candies and Two Sisters
 
 // There are two sisters Alice and Betty. You have n candies. You want to distribute these n candies between two sisters in such a way that:
 //  • Alice will get a (a>0) candies;
@@ -41,6 +41,9 @@
 //  • a=6, b=1;
 //  • a=5, b=2;
 //  • a=4, b=3.
+
+// Tutorial
+// The answer is ⌊(n−1)/2⌋, where ⌊x⌋ is x rounded down.
 
 package main
 
