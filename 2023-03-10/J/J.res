@@ -1,1 +1,4 @@
-K is the counterfeit coin and it is light.
+144
+30
+-1
+-1

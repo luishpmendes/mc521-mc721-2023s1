@@ -1,7 +1,7 @@
-Disk
-NotE
-derail
-drIed
-eye
-ladder
-soon
+0
+-1
+2
+-1
+-1
+12
+36

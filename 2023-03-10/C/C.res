@@ -1,4 +1,3 @@
-You won't be eaten!
-You won't be eaten!
-Uh oh..
-You won't be eaten!
+16
+17
+12
