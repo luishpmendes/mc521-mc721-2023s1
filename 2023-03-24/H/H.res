@@ -1,2 +1,7 @@
-agun jalo
-tui rajakar tui rajakar
+1
+3 
+-1
+0
+
+2
+1 2 
