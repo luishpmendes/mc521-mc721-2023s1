@@ -1,57 +1,52 @@
-// https://codeforces.com/problemset/problem/1385/D
+// https://codeforces.com/problemset/problem/1741/D
 
-// CodeForces 1385D - a-Good String
+// CodeForces 1741D - Masha and a Beautiful Tree
 
-// You are given a string s[1…n] consisting of lowercase Latin letters. It is guaranteed that n=2k for some integer k≥0.
-// The string s[1…n] is called c-good if at least one of the following three conditions is satisfied:
-//  • The length of s is 1, and it consists of the character c (i.e. s1=c);
-//  • The length of s is greater than 1, the first half of the string consists of only the character c (i.e. s1=s2=⋯=sn2=c) and the second half of the string (i.e. the string sn2+1sn2+2…sn) is a (c+1)-good string;
-//  • The length of s is greater than 1, the second half of the string consists of only the character c (i.e. sn2+1=sn2+2=⋯=sn=c) and the first half of the string (i.e. the string s1s2…sn2) is a (c+1)-good string.
-// For example: "aabc" is 'a'-good, "ffgheeee" is 'e'-good.
-// In one move, you can choose one index i from 1 to n and replace si with any lowercase Latin letter (any character from 'a' to 'z').
-// Your task is to find the minimum number of moves required to obtain an 'a'-good string from s (i.e. c-good string for c= 'a'). It is guaranteed that the answer always exists.
-// You have to answer t independent test cases.
-// Another example of an 'a'-good string is as follows. Consider the string s="cdbbaaaa". It is an 'a'-good string, because:
-//  • the second half of the string ("aaaa") consists of only the character 'a';
-//  • the first half of the string ("cdbb") is 'b'-good string, because:
-//     • the second half of the string ("bb") consists of only the character 'b';
-// 	• the first half of the string ("cd") is 'c'-good string, because:
-// 	   • the first half of the string ("c") consists of only the character 'c';
-// 	   • the second half of the string ("d") is 'd'-good string.
+// The girl named Masha was walking in the forest and found a complete binary tree of height n and a permutation p of length m=2^n.
+// A complete binary tree of height n is a rooted tree such that every vertex except the leaves has exactly two sons, and the length of the path from the root to any of the leaves is n. The picture below shows the complete binary tree for n=2.
+// A permutation is an array consisting of n different integers from 1 to n. For example, [2,3,1,5,4] is a permutation, but [1,2,2] is not (2 occurs twice), and [1,3,4] is also not a permutation (n=3, but there is 4 in the array).
+// Let's enumerate m leaves of this tree from left to right. The leaf with the number i contains the value pi (1≤i≤m).
+// For example, if n=2, p=[3,1,4,2], the tree will look like this:
+// Masha considers a tree beautiful if the values in its leaves are ordered from left to right in increasing order.
+// In one operation, Masha can choose any non-leaf vertex of the tree and swap its left and right sons (along with their subtrees).
+// For example, if Masha applies this operation to the root of the tree discussed above, it will take the following form:
+// Help Masha understand if she can make a tree beautiful in a certain number of operations. If she can, then output the minimum number of operations to make the tree beautiful.
 
 // Input
-// The first line of the input contains one integer t (1≤t≤2⋅10^4) — the number of test cases. Then t test cases follow.
-// The first line of the test case contains one integer n (1≤n≤131072) — the length of s. It is guaranteed that n=2^k for some integer k≥0. The second line of the test case contains the string s consisting of n lowercase Latin letters.
-// It is guaranteed that the sum of n does not exceed 2⋅10^5 (∑n≤2⋅10^5).
+// The first line contains single integer t (1≤t≤10^4) — number of test cases.
+// In each test case, the first line contains an integer m (1≤m≤262144), which is a power of two  — the size of the permutation p.
+// The second line contains m integers: p1,p2,…,pm (1≤pi≤m) — the permutation p.
+// It is guaranteed that the sum of m over all test cases does not exceed 3⋅10^5.
 
 // Output
-// For each test case, print the answer — the minimum number of moves required to obtain an 'a'-good string from s (i.e. c-good string with c= 'a'). It is guaranteed that the answer exists.
+// For each test case in a separate line, print the minimum possible number of operations for which Masha will be able to make the tree beautiful or -1, if this is not possible.
 
 // Example
 // input
-// 6
-// 8
-// bbdcaaaa
-// 8
-// asdfghjk
-// 8
-// ceaaaabb
-// 8
-// bbaaddcc
-// 1
-// z
-// 2
-// ac
-// output
-// 0
-// 7
 // 4
-// 5
+// 8
+// 6 5 7 8 4 3 1 2
+// 4
+// 3 1 4 2
 // 1
 // 1
+// 8
+// 7 8 4 3 1 2 6 5
+// output
+// 4
+// -1
+// 0
+// -1
+
+// Note
+// Consider the first test.
+// In the first test case, you can act like this (the vertex to which the operation is applied at the current step is highlighted in purple):
+// It can be shown that it is impossible to make a tree beautiful in fewer operations.
+// In the second test case, it can be shown that it is impossible to make a tree beautiful.
+// In the third test case, the tree is already beautiful.
 
 // Tutorial
-// Consider the problem in 0-indexation. Define the function calc(l,r,c) which finds the minimum number of changes to make the string s[l…r) c-good string. Let mid=(l+r)/2. Then let cntl=(r−l)/2−count(s[l…mid),c)+calc(mid,r,c+1) and cntr=(r−l)/2−count(s[mid…r),c)+calc(l,mid,c+1), where count(s,c) is the number of occurrences of the character c in s. We can see that cntl describes the second condition from the statement and cntr describes the third one. So, calc(l,r,c) returns min(cntl,cntr) except one case. When r−l=1, we need to return 1 if sl≠c and 0 otherwise. This function works in O(nlogn) (each element of s belongs to exactly logn segments, like segment tree). You can get the answer if you run calc(0,n, ′a′).
+// Let some vertex be responsible for a segment of leaves [l..r]. Then her left son is responsible for the segment [l..(l+r−1)/2], and the right for the segment [(l+r+1)/2..r]. Note that if we do not apply the operation to this vertex, then it will not be possible to move some element from the right son's segment to the left son's segment. It remains to understand when we need to apply the operation to the vertex. Let the maximum on the segment [l..r] be max, the minimum on the same segment is min. Then if min lies in the right son, and max in the left, then we should obviously apply the operation, for the reason described above. In the case when min lies in the left son, and max in the right, the application of the operation will definitely not allow you to get a solution. Let's continue to act in a similar way recursively from the children of the current vertex. At the end, we should check whether we have received a sorted permutation. The above solution works for O(nm), since there are n levels in the tree and at each level, vertexes are responsible for m sheets in total. You can optimize this solution to O(m) if you pre-calculate the maximum and minimum for each vertex.
 
 package main
 
@@ -59,52 +54,70 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 )
 
-func calc(s *string, l uint, r uint, c byte) uint {
-	var mid, i, cntl, cntr uint
+func solve(p *[]uint, l, r uint) uint {
+	var mid, i, mal, mar, ans uint
 
-	if l == r {
-		if (*s)[l] != c {
-			return 1
-		} else {
-			return 0
-		}
-	} else {
+	ans = 0
+
+	if r != l+1 {
 		mid = (l + r) >> 1
+		mal = (*p)[l]
+		mar = (*p)[mid]
+		ans = 0
 
-		for i = l; i <= r; i++ {
-			if (*s)[i] != c {
-				if i <= mid {
-					cntl++
-				} else {
-					cntr++
-				}
+		for i = l + 1; i < mid; i++ {
+			if mal < (*p)[i] {
+				mal = (*p)[i]
 			}
 		}
 
-		cntl += calc(s, mid+1, r, c+1)
-		cntr += calc(s, l, mid, c+1)
-
-		if cntl < cntr {
-			return cntl
-		} else {
-			return cntr
+		for i = mid + 1; i < r; i++ {
+			if mar < (*p)[i] {
+				mar = (*p)[i]
+			}
 		}
+
+		if mal > mar {
+			ans++
+
+			for i = 0; i+l < mid; i++ {
+				(*p)[l+i], (*p)[mid+i] = (*p)[mid+i], (*p)[l+i]
+			}
+		}
+
+		ans += solve(p, l, mid)
+		ans += solve(p, mid, r)
 	}
+
+	return ans
 }
 
 func main() {
 	var reader = bufio.NewReader(os.Stdin)
 	var writer = bufio.NewWriter(os.Stdout)
 	var c int
-	var t, n uint
-	var s string
+	var t, m, i, ans uint
+	var p []uint
 
 	for c, _ = fmt.Fscan(reader, &t); c == 1; c, _ = fmt.Fscan(reader, &t) {
 		for ; t > 0; t-- {
-			fmt.Fscan(reader, &n, &s)
-			fmt.Fprintln(writer, calc(&s, 0, n-1, 'a'))
+			fmt.Fscan(reader, &m)
+			p = make([]uint, m)
+
+			for i = 0; i < m; i++ {
+				fmt.Fscan(reader, &p[i])
+			}
+
+			ans = solve(&p, 0, m)
+
+			if sort.SliceIsSorted(p, func(i, j int) bool { return p[i] < p[j] }) {
+				fmt.Fprintln(writer, ans)
+			} else {
+				fmt.Fprintln(writer, -1)
+			}
 		}
 	}
 
