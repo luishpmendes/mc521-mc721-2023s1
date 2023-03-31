@@ -70,6 +70,8 @@ class UnionFind {
             }
         }
 
+        UnionFind() : UnionFind(0) {}
+
         int findSet(int i) {
             return (this->p[i] == i) ? i : (this->p[i] = this->findSet(this->p[i]));
         }
@@ -104,11 +106,12 @@ int main () {
     std::map<char, unsigned> index;
     std::vector<std::vector<unsigned>> adj;
     std::vector<unsigned> neighborsOfAwake;
+    UnionFind uf;
 
     while (std::cin >> n >> m >> awake) {
         index.clear();
         adj.assign(26, std::vector<unsigned>());
-        UnionFind uf(26);
+        uf = UnionFind(26);
 
         index[awake[0]] = 0;
         index[awake[1]] = 1;
